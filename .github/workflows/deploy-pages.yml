@@ -1,7 +1,11 @@
 # .github/workflows/deploy-pages.yml
 name: 🚀 Deploy to GitHub Pages
 
-# run on every git push (any branch)
+# 1️⃣ grant the token push rights
+permissions:
+  contents: write
+
+# run on every commit you push
 on: [push]
 
 jobs:
@@ -10,14 +14,18 @@ jobs:
     steps:
       - name: 🔍 Checkout code
         uses: actions/checkout@v3
+        with:
+          # make sure your GITHUB_TOKEN is wired into `git push`
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # pick your target
+          node-version: 18
 
       - name: 📦 Install dependencies
-        run: npm ci  # clean install
+        run: npm ci
 
       - name: 🏗️ Build site
         run: npm run build
@@ -26,4 +34,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist    # change to ./docs if you set outDir: 'docs'
+          publish_branch: gh-pages
+          publish_dir: ./dist   # or ./docs if you set outDir: 'docs'
