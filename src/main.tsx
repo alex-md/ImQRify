@@ -7,7 +7,7 @@ import "./index.css";
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <HeroUIProvider>
-            <main className="text-foreground bg-background">
+            <main className="min-h-screen bg-white text-black">
                 <App />
             </main>
         </HeroUIProvider>
